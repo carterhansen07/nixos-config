@@ -31,20 +31,23 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    neovim-flake = {
+      url = "github:carterhansen07/neovim";
+    };
 
     # Other packages
     zig.url = "github:mitchellh/zig-overlay";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, ... }@inputs: let
+  outputs = { self, nixpkgs, home-manager, darwin, neovim-flake,... }@inputs: let
     mkDarwin = import ./lib/mkdarwin.nix;
     mkVM = import ./lib/mkvm.nix;
 
     # Overlays is the list of overlays we want to apply from flake inputs.
     overlays = [
-      inputs.neovim-nightly-overlay.overlay
       inputs.zig.overlays.default
-    ];
+      inputs.neovim-flake.overlays.default
+     ];
   in {
     nixosConfigurations.vm-aarch64 = mkVM "vm-aarch64" {
       inherit nixpkgs home-manager;
@@ -54,11 +57,11 @@
       overlays = overlays ++ [(final: prev: {
         # Example of bringing in an unstable package:
         # open-vm-tools = inputs.nixpkgs-unstable.legacyPackages.${prev.system}.open-vm-tools;
-      })];
+	}) ];
     };
 
     nixosConfigurations.vm-aarch64-prl = mkVM "vm-aarch64-prl" rec {
-      inherit overlays nixpkgs home-manager;
+      inherit overlays nixpkgs home-manager ;
       system = "aarch64-linux";
       user   = "mitchellh";
     };

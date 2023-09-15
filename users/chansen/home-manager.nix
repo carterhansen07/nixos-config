@@ -27,6 +27,7 @@ in {
   # per-project flakes sourced with direnv and nix-shell, so this is
   # not a huge list.
   home.packages = [
+    pkgs.neovim-maximal
     pkgs.asciinema
     pkgs.bat
     pkgs.fd
@@ -61,7 +62,6 @@ in {
     LANG = "en_US.UTF-8";
     LC_CTYPE = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
-    EDITOR = "nvim";
     PAGER = "less -FirSwX";
     MANPAGER = "${manpager}/bin/manpager";
   };
@@ -77,13 +77,6 @@ in {
   xdg.configFile."rectangle/RectangleConfig.json".text = builtins.readFile ./RectangleConfig.json;
 
   # tree-sitter parsers
-  xdg.configFile."nvim/parser/proto.so".source = "${pkgs.tree-sitter-proto}/parser";
-  xdg.configFile."nvim/queries/proto/folds.scm".source =
-    "${sources.tree-sitter-proto}/queries/folds.scm";
-  xdg.configFile."nvim/queries/proto/highlights.scm".source =
-    "${sources.tree-sitter-proto}/queries/highlights.scm";
-  xdg.configFile."nvim/queries/proto/textobjects.scm".source =
-    ./textobjects.scm;
 
   #---------------------------------------------------------------------
   # Programs
@@ -166,7 +159,7 @@ in {
     enable = true;
     userName = "carterhansen07";
     userEmail = "carhantersen@gmail.com";
-     
+
     extraConfig = {
       branch.autosetuprebase = "always";
       color.ui = true;
@@ -239,56 +232,6 @@ in {
     };
   };
 
-  programs.neovim = {
-    enable = true;
-    package = pkgs.neovim-nightly;
-
-    withPython3 = true;
-    extraPython3Packages = (p: with p; [
-      # For nvim-magma
-      jupyter-client
-      cairosvg
-      plotly
-      #pnglatex
-      #kaleido
-    ]);
-
-    plugins = with pkgs; [
-      customVim.vim-copilot
-      customVim.vim-cue
-      customVim.vim-fish
-      customVim.vim-fugitive
-      customVim.vim-glsl
-      customVim.vim-misc
-      customVim.vim-pgsql
-      customVim.vim-tla
-      customVim.vim-zig
-      customVim.pigeon
-      customVim.AfterColors
-
-      customVim.vim-devicons
-      customVim.vim-nord
-      customVim.nvim-comment
-      customVim.nvim-lspconfig
-      customVim.nvim-plenary # required for telescope
-      customVim.nvim-telescope
-      customVim.nvim-treesitter
-      customVim.nvim-treesitter-playground
-      customVim.nvim-treesitter-textobjects
-      customVim.nvim-magma
-
-      vimPlugins.vim-airline
-      vimPlugins.vim-airline-themes
-      vimPlugins.vim-eunuch
-      vimPlugins.vim-gitgutter
-
-      vimPlugins.vim-markdown
-      vimPlugins.vim-nix
-      vimPlugins.typescript-vim
-    ];
-
-    extraConfig = (import ./vim-config.nix) { inherit sources; };
-  };
 
   services.gpg-agent = {
     enable = isLinux;
