@@ -49,7 +49,7 @@
     nixosConfigurations.vm-aarch64 = mkVM "vm-aarch64" {
       inherit nixpkgs home-manager;
       system = "aarch64-linux";
-      user   = "mitchellh";
+      user   = "chansen";
 
       overlays = overlays ++ [(final: prev: {
         # Example of bringing in an unstable package:
@@ -78,7 +78,7 @@
     darwinConfigurations.macbook-pro-m1 = mkDarwin "macbook-pro-m1" {
       inherit darwin nixpkgs home-manager overlays;
       system = "aarch64-darwin";
-      user   = "mitchellh";
+      user   = "chansen";
     };
   };
 }

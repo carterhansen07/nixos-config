@@ -56,16 +56,12 @@ bindsym $mod+d split h
 bindsym $mod+Shift+d split v
 
 # temp, hacking on a tty
-bindsym $mod+Shift+n exec /home/mitchellh/bin/devtty --config-file=/home/mitchellh/.config/devtty/config
+bindsym $mod+Shift+n exec /home/chansen/bin/devtty --config-file=/home/mitchellh/.config/devtty/config
 
 # kill focused window
 bindsym $mod+w kill
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
 
 # move focused window
 bindsym $mod+Shift+h move left
