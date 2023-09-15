@@ -93,8 +93,6 @@ in {
 
   programs.bash = {
     enable = true;
-    userName = "carterhansen07";
-    userEmail = "carhantersen@gmail.com";
     shellOptions = [];
     historyControl = [ "ignoredups" "ignorespace" ];
     initExtra = builtins.readFile ./bashrc;
@@ -166,6 +164,9 @@ in {
 
   programs.git = {
     enable = true;
+    userName = "carterhansen07";
+    userEmail = "carhantersen@gmail.com";
+     
     extraConfig = {
       branch.autosetuprebase = "always";
       color.ui = true;
